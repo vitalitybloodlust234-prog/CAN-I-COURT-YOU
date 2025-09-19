@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Can I Court You? — A Little Surprise</title>
+  <style>
+    :root{--bg:#FFF8FB;--card:#ffffff;--accent:#ff6b8a;--muted:#7a6b79}
+    *{box-sizing:border-box;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
+    body{margin:0;min-height:100vh;background:linear-gradient(180deg,#fff 0%,#FFF8FB 100%);display:flex;align-items:center;justify-content:center;padding:24px}
+    .card{width:100%;max-width:760px;background:var(--card);border-radius:18px;box-shadow:0 10px 30px rgba(106,87,105,0.12);padding:28px}
+    .row{display:flex;gap:20px;align-items:center}
+    .left{flex:1}
+    h1{margin:0;font-size:28px;color:#3b2a33}
+    p.lead{margin:10px 0 20px;color:var(--muted);line-height:1.5}
+    .heart{width:86px;height:86px;border-radius:16px;background:linear-gradient(180deg,#ff8aa2,#ff6b8a);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(255,107,138,0.18);transform:scale(1);transition:transform .25s}
+    .heart svg{filter:drop-shadow(0 6px 12px rgba(255,107,138,0.18))}
+    .action{margin-top:18px}
+    button{background:var(--accent);border:0;color:white;padding:12px 18px;border-radius:12px;font-weight:600;cursor:pointer;box-shadow:0 8px 20px rgba(255,107,138,0.18)}
+    .sub{margin-top:12px;color:var(--muted);font-size:14px}
+    .hidden{display:none}
+    .final{margin-top:20px;padding:18px;border-radius:12px;background:linear-gradient(180deg,#fff0f3, #fff)}
+    .options{display:flex;gap:10px;margin-top:12px}
+    .opt{flex:1;padding:10px;border-radius:10px;border:1px dashed rgba(59,42,51,0.08);cursor:pointer;text-align:center}
+    .opt:hover{background:#fff7f9}
+    .confetti{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;display:none}
+    footer{margin-top:16px;color:var(--muted);font-size:13px}
+    @media (max-width:640px){.row{flex-direction:column}.heart{margin-left:auto;margin-right:auto}}
+  </style>
+</head>
+<body>
+  <div class="card" role="main">
+    <div class="row">
+      <div class="left">
+        <h1>Hi loveee 💖</h1>
+        <p class="lead">Thanks for answering that little survey — I made a small surprise page just for you. Take your time and be honest, this is just for both of us. </p>
+        <div id="step1">
+          <p class="sub">Ready for a tiny surprise? Click the heart below to see something special.</p>
+          <div style="display:flex;align-items:center;gap:14px;">
+            <div class="heart" id="heartBtn" role="button" aria-label="Open surprise">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.1 20s-7.1-4.35-9.25-7.25C-.8 8.6 4.15 4 7.9 6.4c1.45 1.1 2.05 2.6 2.2 3.6.15-1 1.05-2.45 2.5-3.55C15.85 4 20.8 8.6 21.15 12.75 19 15.65 12.1 20 12.1 20z" fill="#fff"/></svg>
+            </div>
+            <div>
+              <div style="font-weight:700;color:#3b2a33">A little click</div>
+              <div class="sub">(Promise, walang traps. Just love.)</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="step2" class="hidden">
+          <div class="final">
+            <div style="font-weight:700;color:#3b2a33">You answered with so much ❤️</div>
+            <p class="sub" style="margin-top:8px">I read your answers and I want to do better — to show up, to make you feel loved, and to be consistent. I made this little page para sabihin it in a way na cute and sincere.</p>
+            <div class="options" style="margin-top:12px">
+              <div class="opt" data-value="yes">Yes, let him try 💖</div>
+              <div class="opt" data-value="maybe">Hmm, surprise me 😏</div>
+              <div class="opt" data-value="needtime">Need time, not now</div>
+            </div>
+            <div id="result" class="hidden" style="margin-top:12px"></div>
+          </div>
+          <footer>Tip: You can close this anytime. This was made with extra effort — kasi you deserve it.</footer>
+        </div>
+      </div>
+      <div style="width:150px;display:flex;flex-direction:column;align-items:center">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:10px">From</div>
+        <div style="font-weight:800;color:#3b2a33">Leo 💫</div>
+      </div>
+    </div>
+  </div>
+
+  <canvas class="confetti" id="confetti"></canvas>
+
+  <script>
+    const heart = document.getElementById('heartBtn');
+    const step1 = document.getElementById('step1');
+    const step2 = document.getElementById('step2');
+    const opts = document.querySelectorAll('.opt');
+    const result = document.getElementById('result');
+    function pulse(el){el.style.transform='scale(1.06)';setTimeout(()=>el.style.transform='scale(1)',180)}
+    heart.addEventListener('click',()=>{pulse(heart);step1.classList.add('hidden');step2.classList.remove('hidden');});
+    opts.forEach(o=>o.addEventListener('click',()=>{
+      const v=o.dataset.value;
+      if(v==='yes'){
+        result.classList.remove('hidden');
+        result.innerHTML = `<div style="font-weight:700;color:var(--accent)">Yes? 😭💖</div><div class="sub" style="margin-top:8px">I promise to court you with sincerity—small efforts everyday, surprises, and consistent presence. Will you let me start?</div><div style="margin-top:12px"><button id="confirm">I accept ❤️</button></div>`;
+        fireConfetti();
+      } else if(v==='maybe'){
+        result.classList.remove('hidden');
+        result.innerHTML = `<div style="font-weight:700;color:#3b2a33">Ooh, curious! 😏</div><div class="sub" style="margin-top:8px">I’ll keep surprising you then — with littles that mean a lot. No pressure, I’ll earn it.</div>`;
+      } else {
+        result.classList.remove('hidden');
+        result.innerHTML = `<div style="font-weight:700;color:#3b2a33">I understand ❤️</div><div class="sub" style="margin-top:8px">Take all the time you need. I’ll be here, ready to show up when you feel it’s right.</div>`;
+      }
+      // optional: attach event for confirm button
+      setTimeout(()=>{
+        const confBtn=document.getElementById('confirm');
+        if(confBtn){confBtn.addEventListener('click',()=>{
+          result.innerHTML = `<div style="font-weight:800;color:var(--accent);font-size:18px">Thank you, loveee 💖</div><div class="sub" style="margin-top:8px">Sasabihin ko sayo in person soon — pero simulan na natin to ngayon. Expect extra lambing.</div>`;
+          fireConfetti();
+        })}
+      },200);
+    }));
+
+    // lightweight confetti
+    function fireConfetti(){
+      const canvas=document.getElementById('confetti');
+      const ctx=canvas.getContext('2d');
+      canvas.width=innerWidth;canvas.height=innerHeight;canvas.style.display='block';
+      const pieces=[];const colors=["#ff6b8a","#ffd166","#ffd1e3","#ff9fb1","#bde0fe"];
+      for(let i=0;i<120;i++){pieces.push({x:Math.random()*canvas.width,y:-Math.random()*canvas.height,vy:Math.random()*6+2, size:Math.random()*6+4, color:colors[Math.floor(Math.random()*colors.length)], r:Math.random()*6})}
+      let raf;
+      function render(){ctx.clearRect(0,0,canvas.width,canvas.height);for(const p of pieces){ctx.fillStyle=p.color;ctx.beginPath();ctx.ellipse(p.x,p.y,p.size,p.size*0.6,0,0,Math.PI*2);ctx.fill();p.y+=p.vy;p.x+=Math.sin(p.y/20);if(p.y>canvas.height+10){p.y=-20;p.x=Math.random()*canvas.width}}raf=requestAnimationFrame(render)}
+      render();setTimeout(()=>{cancelAnimationFrame(raf);canvas.style.display='none'},2500);
+    }
+  </script>
+</body>
+</html>
